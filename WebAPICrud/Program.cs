@@ -19,6 +19,14 @@ builder.Services.AddDbContext<CrudContext>(options =>
     options.UseMySql(connectionString, serverVersion);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Nueva Politica", app =>
+    {
+        app.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("Nueva Politica");
 
 app.UseAuthorization();
 
