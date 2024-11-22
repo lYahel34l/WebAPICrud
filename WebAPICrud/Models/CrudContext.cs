@@ -15,6 +15,7 @@ public partial class CrudContext : DbContext
         : base(options)
     {
     }
+    public virtual DbSet<Usuario> Usuarios { get; set; }
 
     public virtual DbSet<Empleado> Empleados { get; set; }
 
@@ -43,6 +44,14 @@ public partial class CrudContext : DbContext
             entity.Property(e => e.Correo).HasMaxLength(80);
             entity.Property(e => e.Nombre).HasMaxLength(60);
             entity.Property(e => e.Sueldo).HasColumnName("sueldo");
+        });
+
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(u => u.IdUsuario).HasName("PRIMARY");
+            entity.ToTable("usuario");
+            entity.Property(u => u.NombreUsuario).HasMaxLength(50).IsRequired();
+            entity.Property(u => u.Contra).HasMaxLength(100).IsRequired();
         });
 
         OnModelCreatingPartial(modelBuilder);
